@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Form Minimalis | Profile + Skills</title>
+  <style>
+    :root{
+      --bg: #0f1225;
+      --bg-soft: #141833;
+      --card: #1a1f3f;
+      --ink: #e9ecf8;
+      --muted:#a9b0c7;
+      --accent:#7c9cff;
+      --accent-2:#53e3c2;
+      --danger:#ff6b6b;
+      --ok:#58d68d;
+      --outline: #2a3160;
+      --chip:#232a54;
+      --chip-on:#223a6b;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius:16px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      color:var(--ink);
+      font:500 16px/1.55 ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Helvetica Neue',Arial;
+      background:
+        radial-gradient(1200px 600px at 10% 10%, rgba(124,156,255,.18), transparent 60%),
+        radial-gradient(900px 500px at 90% 20%, rgba(83,227,194,.18), transparent 60%),
+        linear-gradient(180deg, var(--bg), #0b0e1d 70%);
+    }
+    header{
+      position:sticky; top:0; z-index:10;
+      backdrop-filter:saturate(1.2) blur(8px);
+      background:linear-gradient(180deg, rgba(20,24,51,.8), rgba(20,24,51,.2));
+      border-bottom:1px solid var(--outline);
+    }
+    .bar{
+      max-width:1100px; margin:0 auto; padding:14px 18px; display:flex; align-items:center; gap:14px;
+    }
+    .logo{
+      width:32px; height:32px; border-radius:8px;
+      background: conic-gradient(from 120deg, var(--accent), var(--accent-2), var(--accent));
+      box-shadow: 0 0 0 3px rgba(124,156,255,.15), 0 8px 20px rgba(124,156,255,.25);
+    }
+    .brand{font-weight:700; letter-spacing:.3px}
+    .container{max-width:1100px; margin:28px auto 60px; padding:0 18px}
+    .steps{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px}
+    .step{
+      padding:8px 12px; border:1px solid var(--outline); border-radius:999px; color:var(--muted);
+      background: rgba(26,31,63,.6);
+    }
+    .step.active{color:var(--ink); border-color: var(--accent); box-shadow: inset 0 0 0 1px rgba(124,156,255,.3)}
+    .grid{display:grid; gap:14px}
+    @media(min-width:800px){ .grid.cols-2{grid-template-columns:1fr 1fr} .grid.cols-3{grid-template-columns:repeat(3,1fr)} }
+    .card{
+      background:linear-gradient(180deg, rgba(26,31,63,.85), rgba(26,31,63,.7));
+      border:1px solid var(--outline);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:20px;
+      display:none;
+    }
+    .card.active{display:block}
+    h1,h2,h3{margin:6px 0 14px}
+    h1{font-size:26px} h2{font-size:20px; color:var(--muted)}
+    .field{display:flex; flex-direction:column; gap:8px}
+    label{font-size:14px; color:var(--muted)}
+    input,select,textarea{
+      width:100%; padding:12px 12px; border-radius:12px;
+      border:1px solid var(--outline); background:#0f1433; color:var(--ink);
+      outline:none; transition: border .2s, box-shadow .2s;
+    }
+    input:focus,select:focus,textarea:focus{
+      border-color:var(--accent); box-shadow:0 0 0 3px rgba(124,156,255,.15)
+    }
+    textarea{min-height:90px; resize:vertical}
+    .row{display:flex; gap:10px; flex-wrap:wrap}
+    .row > *{flex:1 1 220px}
+    .actions{display:flex; gap:10px; justify-content:flex-end; margin-top:16px}
+    button{
+      appearance:none; border:1px solid var(--outline); background:linear-gradient(180deg,#33406f,#263261);
+      color:var(--ink); padding:12px 14px; border-radius:12px; font-weight:700; cursor:pointer;
+      transition:transform .06s ease, filter .15s ease, border-color .2s;
+    }
+    button:hover{filter:brightness(1.08)}
+    button:active{transform:translateY(1px)}
+    .primary{border-color:rgba(124,156,255,.6); background:linear-gradient(180deg,#5270ff,#4058d9)}
+    .ghost{background:transparent}
+    .chip{
+      display:inline-flex; align-items:center; gap:6px; padding:8px 10px; border-radius:999px;
+      border:1px solid var(--outline); background:var(--chip); color:var(--ink); font-size:13px; margin:4px 6px 0 0;
+    }
+    .chip.selected{background:var(--chip-on); border-color:rgba(124,156,255,.4)}
+    .chip .x{cursor:pointer; opacity:.8}
+    .help{font-size:12px; color:var(--muted)}
+    .hr{height:1px; background:var(--outline); margin:14px 0}
+    .list{
+      display:grid; gap:8px;
+      grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+      max-height:220px; overflow:auto; padding-right:6px;
+      border:1px dashed var(--outline); border-radius:12px; padding:10px;
+      background: rgba(15,20,51,.35);
+    }
+    .opt{display:flex; align-items:center; gap:10px}
+    .opt input[type="checkbox"]{width:16px; height:16px}
+    .pill{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:6px 10px; border-radius:999px; border:1px solid var(--outline); background:#0d1331; color:var(--muted);
+      font-size:12px
+    }
+    .edu-item{border:1px solid var(--outline); border-radius:12px; padding:12px; background:#0f1433}
+    .remove{color:var(--danger); border-color:rgba(255,107,107,.4); background:linear-gradient(180deg,#452929,#3a1f1f)}
+    .ok{color:#0e261b; background:#53e3c2; border-color:#53e3c2}
+    .note{font-size:13px; color:var(--muted)}
+    .summary{white-space:pre-wrap; font-family:ui-monospace,Consolas,Monaco,monospace; background:#0b0f26; padding:12px; border-radius:12px; border:1px solid var(--outline)}
+    .tiny{font-size:12px; color:var(--muted)}
+    footer{opacity:.8}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="bar">
+      <div class="logo" aria-hidden="true"></div>
+      <div>
+        <div class="brand">Form Minimalis</div>
+        <div class="tiny">Multi-step | Estetis | Tanpa framework</div>
+      </div>
+      <div style="margin-left:auto" class="pill">Demo Lokal • Data tidak dikirim ke server</div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="steps">
+      <div class="step step-1 active">1 • Masuk</div>
+      <div class="step step-2">2 • Data profil</div>
+      <div class="step step-3">3 • Ringkasan</div>
+    </div>
+
+    <!-- STEP 1: LOGIN -->
+    <section id="login" class="card active" aria-labelledby="login-title">
+      <h1 id="login-title">Masuk</h1>
+      <p class="help">Masukkan email dan password untuk melanjutkan ke formulir.</p>
+      <form id="loginForm" class="grid cols-2" autocomplete="on">
+        <div class="field">
+          <label for="loginEmail">Email</label>
+          <input id="loginEmail" type="email" placeholder="nama@contoh.com" required />
+        </div>
+        <div class="field">
+          <label for="loginPass">Password</label>
+          <input id="loginPass" type="password" placeholder="••••••••" minlength="6" required />
+        </div>
+        <div class="actions" style="grid-column:1/-1">
+          <button type="submit" class="primary">Masuk & Lanjut</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- STEP 2: PROFILE FORM -->
+    <section id="profile" class="card" aria-labelledby="profile-title">
+      <h1 id="profile-title">Data profil</h1>
+      <h2>Identitas & kontak</h2>
+      <div class="grid cols-2">
+        <div class="field">
+          <label for="fullName">Nama lengkap</label>
+          <input id="fullName" type="text" placeholder="Nama lengkap" required />
+        </div>
+        <div class="field">
+          <label for="nick">Nama panggilan (opsional)</label>
+          <input id="nick" type="text" placeholder="Nama panggilan" />
+        </div>
+        <div class="field">
+          <label for="email">Email</label>
+          <input id="email" type="email" placeholder="nama@contoh.com" required />
+        </div>
+        <div class="field">
+          <label for="phone">No. HP/WhatsApp</label>
+          <input id="phone" type="tel" inputmode="tel" placeholder="+62xxxxxxxxxxx" required />
+        </div>
+        <div class="field">
+          <label for="address">Alamat</label>
+          <input id="address" type="text" placeholder="Alamat lengkap" />
+        </div>
+        <div class="field">
+          <label for="city">Kota/Kabupaten</label>
+          <input id="city" type="text" placeholder="Kota/Kabupaten" />
+        </div>
+        <div class="field">
+          <label for="website">Website (opsional)</label>
+          <input id="website" type="url" placeholder="https://contoh.site" />
+        </div>
+        <div class="field">
+          <label for="linkedin">LinkedIn (opsional)</label>
+          <input id="linkedin" type="url" placeholder="https://linkedin.com/in/username" />
+        </div>
+      </div>
+
+      <div class="hr"></div>
+
+      <h2>Informasi personal</h2>
+      <div class="grid cols-2">
+        <div class="field">
+          <label for="dob">Tanggal lahir (1950–2025)</label>
+          <input id="dob" type="date" min="1950-01-01" max="2025-12-31" required />
+        </div>
+        <div class="field">
+          <label for="gender">Jenis kelamin</label>
+          <select id="gender" required>
+            <option value="" disabled selected>Pilih</option>
+            <option>Perempuan</option>
+            <option>Laki-laki</option>
+            <option>Lainnya / Tidak menyebutkan</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="status">Status</label>
+          <select id="status">
+            <option value="" disabled selected>Pilih</option>
+            <option>Pelajar/SMK</option>
+            <option>Mahasiswa</option>
+            <option>Fresh Graduate</option>
+            <option>Bekerja</option>
+            <option>Lainnya</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="nationality">Kewarganegaraan</label>
+          <input id="nationality" type="text" placeholder="Indonesia" />
+        </div>
+      </div>
+
+      <div class="grid cols-2">
+        <div class="field">
+          <label for="favFood">Makanan kesukaan</label>
+          <input id="favFood" type="text" placeholder="Seblak, sate, sushi..." />
+        </div>
+        <div class="field">
+          <label for="favAnime">Anime favorit</label>
+          <input id="favAnime" type="text" placeholder="Contoh: Jujutsu Kaisen, Haikyuu!!" />
+        </div>
+        <div class="field">
+          <label for="mostStressedFriend">Teman paling stres (nama/inisial)</label>
+          <input id="mostStressedFriend" type="text" placeholder="Inisial pun boleh 😅" />
+        </div>
+        <div class="field">
+          <label for="absurd">Hal absurd yang kamu suka</label>
+          <input id="absurd" type="text" placeholder="Misal: hujan tengah malam + mie instan" />
+        </div>
+      </div>
+
+      <div class="hr"></div>
+
+      <h2>Riwayat pendidikan</h2>
+      <div id="eduList" class="grid"></div>
+      <div class="actions">
+        <button id="addEdu" type="button">+ Tambah pendidikan</button>
+      </div>
+
+      <div class="hr"></div>
+
+      <h2>Keahlian</h2>
+      <div class="field">
+        <label for="skillSearch">Cari keahlian</label>
+        <input id="skillSearch" type="text" placeholder="Ketik untuk menyaring pilihan..." />
+        <div class="help">Centang untuk memilih. Kamu juga bisa menambah keahlian di bawah (custom).</div>
+      </div>
+      <div id="skillOptions" class="list" aria-label="Daftar keahlian"></div>
+
+      <div class="field">
+        <label for="customSkill">Tambah keahlian sendiri (ketik lalu Enter)</label>
+        <input id="customSkill" type="text" placeholder="Contoh: komunikasi frontliner ritel" />
+        <div id="selectedSkills" class="help" style="margin-top:8px"></div>
+      </div>
+
+      <div class="hr"></div>
+
+      <div class="actions">
+        <button type="button" class="ghost" id="backToLogin">Kembali</button>
+        <button type="button" class="primary" id="toReview">Lanjut ke ringkasan</button>
+      </div>
+    </section>
+
+    <!-- STEP 3: REVIEW -->
+    <section id="review" class="card" aria-labelledby="review-title">
+      <h1 id="review-title">Ringkasan</h1>
+      <p class="help">Periksa kembali data kamu. Tidak ada data yang dikirim ke server pada demo ini.</p>
+      <div id="summary" class="summary"></div>
+      <div class="actions">
+        <button type="button" class="ghost" id="backToForm">Kembali edit</button>
+        <button type="button" class="primary" id="submitBtn">Submit (simulasi)</button>
+      </div>
+      <p id="submitNote" class="note" style="display:none">✔ Data tersimpan secara lokal (simulasi). Kamu bisa menutup halaman ini.</p>
+    </section>
+  </div>
+
+  <footer class="container tiny">
+    Dibuat minimalis, fokus pada pengalaman pengguna. Kamu bisa kembangkan validasi, ekspor JSON, atau integrasi backend nanti.
+  </footer>
+
+  <script>
+    // ====== NAVIGATION / STEPS ======
+    const secLogin = document.getElementById('login');
+    const secProfile = document.getElementById('profile');
+    const secReview = document.getElementById('review');
+    const steps = [document.querySelector('.step-1'), document.querySelector('.step-2'), document.querySelector('.step-3')];
+
+    function go(step){
+      [secLogin, secProfile, secReview].forEach((s,i)=> s.classList.toggle('active', i===step-1));
+      steps.forEach((el,i)=> el.classList.toggle('active', i===step-1));
+      window.scrollTo({top:0, behavior:'smooth'});
+      history.replaceState(null, '', '#step-'+step);
+    }
+
+    // ====== LOGIN ======
+    document.getElementById('loginForm').addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const email = document.getElementById('loginEmail').value.trim();
+      const pass = document.getElementById('loginPass').value.trim();
+      if(!email || !pass){ return; }
+      // Simulasi "redirect" ke form berikutnya:
+      go(2);
+      // Autofill email profile
+      const emailField = document.getElementById('email');
+      if(email && !emailField.value) emailField.value = email;
+    });
+
+    document.getElementById('backToLogin').addEventListener('click', ()=> go(1));
+    document.getElementById('backToForm').addEventListener('click', ()=> go(2));
+
+    // ====== EDUCATION DYNAMIC LIST ======
+    const eduList = document.getElementById('eduList');
+    document.getElementById('addEdu').addEventListener('click', addEdu);
+    function addEdu(data={}){
+      const wrap = document.createElement('div');
+      wrap.className = 'edu-item grid cols-2';
+      wrap.innerHTML = `
+        <div class="field">
+          <label>Nama sekolah/univ</label>
+          <input type="text" placeholder="SMK/Universitas ..." value="${data.school||''}" required />
+        </div>
+        <div class="field">
+          <label>Jenjang</label>
+          <select required>
+            <option value="" disabled ${!data.level?'selected':''}>Pilih</option>
+            <option ${data.level==='SMA/SMK'?'selected':''}>SMA/SMK</option>
+            <option ${data.level==='D3'?'selected':''}>D3</option>
+            <option ${data.level==='S1'?'selected':''}>S1</option>
+            <option ${data.level==='S2'?'selected':''}>S2</option>
+            <option ${data.level==='Lainnya'?'selected':''}>Lainnya</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Jurusan/Program studi</label>
+          <input type="text" placeholder="Contoh: Akuntansi" value="${data.major||''}" />
+        </div>
+        <div class="row">
+          <div class="field">
+            <label>Tahun mulai</label>
+            <input type="number" min="1950" max="2025" placeholder="2021" value="${data.start||''}" />
+          </div>
+          <div class="field">
+            <label>Tahun selesai</label>
+            <input type="number" min="1950" max="2025" placeholder="2024" value="${data.end||''}" />
+          </div>
+          <div class="actions" style="align-items:flex-end">
+            <button type="button" class="remove">Hapus</button>
+          </div>
+        </div>
+      `;
+      wrap.querySelector('.remove').addEventListener('click', ()=> wrap.remove());
+      eduList.appendChild(wrap);
+    }
+    // Tambahkan satu default
+    addEdu();
+
+    // ====== SKILLS ======
+    const skillsMaster = [
+      "copy writing","desain","a/b testing","manajemen akun","pembelajaran aktif","mendengarkan aktif","adaptasi","adobe creative suite","adobe xd","periklanan","metodologi agile","berpikir analitis","angular","ansible","anti - pencucian uang","apache kafka","apache spark","pengembangan api","integrasi api","sistem pelacakan pelamar","insinyur kecerdasan buatan","peneliti ai","komunikasi asertif","manajemen aset","ketelitian","audit","pengembangan augmented reality","aws lambda","azure function","administrasi manfaat manajemen manfaat","teknologi big data","teknologi blokchain","penulisan blog","penganggaran dan peramalan","perencanaaan kelangsungan bisnis","pemhaman bisnis","intelejen bisnis","alat bi","buyer engagement","buyer rensponsive selling","bahasa pemrograman lengkap","pasar modal","pencarian karir","desain kerangka karir","manajemen perubahan","chef","integrassi kontinu / development kontinu","circleci","layanan konsultasi klien","closing","cloud infrastructure","keamanan cloud","pelatihan dan monitoring","cold-calling","kolaborasi","teori warna","perdagangan komoditas","komunikasi","kompensansi da manfaat","manajemen kompensansi","pengembangan kerangka dan kompetensi","pengetahuan kepatuhan dan relugasi","visi komputer","penyelsain konflik","containerization","pemsaran konten","insinyur data","tata kelola data","penyimpanan data","prosedur disiplin","komunikasi dan sosialisasi efektif","pemasaran surat langsung elektronik","regulasi emosional","conversion rate optimization","pemecahan masalah kreatif","berpikir kreatif","manajemen risiko kredit","manajemen data pelanggan","kerangka manajmen data","privasi dan perlindungan data","ilmuwan","pengambilan keputusan","deep learning architecture","devops","platform perbankan digital","mencatat dan melaporkan temuan","komputasi edge","sistem perbankan inti","kecerdasan emosional","platform pembelajaran elektronik","berpikir kritis","enkripsi daa","manajemen data","analisis kredit","penilain kredit","kesadaran budaya","grafik kustm","manajemen hubungan pelanggan","keamanan siber","pengumpulan dan evaluasi data","teknolgi digital twin","rasa ingin tahu","uji tuntas pelanggan","kerangka keamanan siber","arsitek data","pengumpulan enkripsi data","entri data","pelaporan dan visusalisasi data","manajemen database","digital forensik","dll docker","analisis ekonomi","elasticsearch","solusi risiko cyber","diskusi analisis data","empati","manajemen komunikasi karyawan","manajemen keterlibatan karyawan","hub karyawan","konttrak kerja","branding perusahaan","keamanan endpoint","arsiitektur perusahaan","perencanaan sumber daya","kesempatan kerja yang setara","instalasi dan konfigurasi peralatan","penilaian etis , dan integritas","proses etl","excel","mengetik cepat","umpan balik","figma","pemahamam keuangan","analisis keuangan","pemodelan keuangan","pelaporan keuangan","firewall","fleksibel","follow up techniques","analisis forensik","deteksi dan pencegahan penipuan","pengembangan game","GitLab ci","go","google ads","google analytics","gcp","graphql","Hadoop","heatmaps","hedging","analisis hr","audit hr","kepatuhan dan hukum hr","sistem informasi hr","kebijakan prosedur hr","pengembangan startegi hr","manajemen hris","html dan css","analitik dan wawasan sdm","IBM coud","wawancara pengguna","up selling dan cross selling"
+    ];
+
+    const skillOptionsEl = document.getElementById('skillOptions');
+    const skillSearch = document.getElementById('skillSearch');
+    const selectedSkillsEl = document.getElementById('selectedSkills');
+    const customSkill = document.getElementById('customSkill');
+    const selected = new Set();
+
+    function renderSkills(filter=''){
+      const q = filter.trim().toLowerCase();
+      skillOptionsEl.innerHTML = '';
+      skillsMaster
+        .filter(s => s.toLowerCase().includes(q))
+        .slice(0, 2000) // safety cap
+        .forEach(s=>{
+          const id = 'sk-' + s.replace(/\W+/g,'-');
+          const wrap = document.createElement('label');
+          wrap.className = 'opt';
+          wrap.innerHTML = `
+            <input id="${id}" type="checkbox" ${selected.has(s)?'checked':''} />
+            <span>${s}</span>
+          `;
+          const input = wrap.querySelector('input');
+          input.addEventListener('change', e=>{
+            if(e.target.checked){ selected.add(s); }
+            else{ selected.delete(s); }
+            renderSelected();
+          });
+          skillOptionsEl.appendChild(wrap);
+        });
+    }
+    function renderSelected(){
+      if(!selected.size){ selectedSkillsEl.innerHTML = '<span class="help">Belum ada keahlian terpilih.</span>'; return; }
+      selectedSkillsEl.innerHTML = '';
+      [...selected].sort().forEach(s=>{
+        const chip = document.createElement('span');
+        chip.className = 'chip selected';
+        chip.innerHTML = `${s} <span class="x" title="Hapus">&times;</span>`;
+        chip.querySelector('.x').addEventListener('click', ()=>{
+          selected.delete(s); renderSelected(); renderSkills(skillSearch.value);
+        });
+        selectedSkillsEl.appendChild(chip);
+      });
+    }
+    renderSkills(); renderSelected();
+
+    skillSearch.addEventListener('input', (e)=> renderSkills(e.target.value));
+
+    customSkill.addEventListener('keydown', (e)=>{
+      if(e.key==='Enter'){
+        e.preventDefault();
+        const val = customSkill.value.trim();
+        if(val && !selected.has(val)){
+          selected.add(val);
+          renderSelected();
+          customSkill.value='';
+        }
+      }
+    });
+
+    // ====== REVIEW / SUMMARY ======
+    function getEdu(){
+      const list = [];
+      eduList.querySelectorAll('.edu-item').forEach(item=>{
+        const [schoolEl, levelEl, majorEl, startEl, endEl] = item.querySelectorAll('input, select');
+        list.push({
+          sekolah: schoolEl.value.trim(),
+          jenjang: levelEl.value,
+          jurusan: majorEl.value.trim(),
+          mulai: startEl.value,
+          selesai: endEl.value
+        });
+      });
+      return list.filter(x=> x.sekolah || x.jenjang);
+    }
+
+    function summarize(){
+      const data = {
+        loginEmail: document.getElementById('loginEmail').value.trim(),
+        profile: {
+          nama: document.getElementById('fullName').value.trim(),
+          panggilan: document.getElementById('nick').value.trim(),
+          email: document.getElementById('email').value.trim(),
+          hp: document.getElementById('phone').value.trim(),
+          alamat: document.getElementById('address').value.trim(),
+          kota: document.getElementById('city').value.trim(),
+          website: document.getElementById('website').value.trim(),
+          linkedin: document.getElementById('linkedin').value.trim(),
+          tglLahir: document.getElementById('dob').value,
+          gender: document.getElementById('gender').value,
+          status: document.getElementById('status').value,
+          kewarganegaraan: document.getElementById('nationality').value.trim(),
+          fun: {
+            makanan: document.getElementById('favFood').value.trim(),
+            anime: document.getElementById('favAnime').value.trim(),
+            temanPalingStres: document.getElementById('mostStressedFriend').value.trim(),
+            halAbsurd: document.getElementById('absurd').value.trim()
+          }
+        },
+        pendidikan: getEdu(),
+        keahlian: [...selected]
+      };
+      const pretty = JSON.stringify(data, null, 2)
+        .replace(/"(loginEmail|profile|pendidikan|keahlian)"/g, '"$1"');
+      document.getElementById('summary').textContent = pretty;
+    }
+
+    document.getElementById('toReview').addEventListener('click', ()=>{
+      // Minimal validation
+      const requiredIds = ['fullName','email','phone','dob','gender'];
+      for(const id of requiredIds){
+        const el = document.getElementById(id);
+        if(!el.value){ el.focus(); el.scrollIntoView({behavior:'smooth', block:'center'}); return; }
+      }
+      summarize();
+      go(3);
+    });
+
+    document.getElementById('submitBtn').addEventListener('click', ()=>{
+      // Simulasi submit: simpan ke localStorage
+      const payload = document.getElementById('summary').textContent;
+      try{
+        localStorage.setItem('demo-profile', payload);
+        document.getElementById('submitNote').style.display='block';
+      }catch(e){
+        alert('Penyimpanan lokal gagal (kapasitas penuh?).');
+      }
+    });
+
+    // Deep-link basic
+    if(location.hash==='#step-2') go(2);
+    if(location.hash==='#step-3') go(3);
+  </script>
+</body>
+</html>
